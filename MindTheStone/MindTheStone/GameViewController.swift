@@ -8,11 +8,13 @@
 
 import UIKit
 import SceneKit
+import ARKit
 
 class GameViewController: UIViewController {
+    
 	
 	var scene: SCNScene!
-	var scnView: SCNView!
+    public var sceneView: ARSCNView = ARSCNView()
 	var wallNode: SCNNode!
 	
 	var centerPosition: CGPoint!
@@ -28,54 +30,36 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // create a new scene
-        scene = SCNScene(named: "art.scnassets/Scene/GameScene.scn")!
-		
+        self.view = sceneView
         
-//        // create and add a camera to the scene
-//        let cameraNode = SCNNode()
-//        cameraNode.camera = SCNCamera()
-//        scene.rootNode.addChildNode(cameraNode)
-//
-//        // place the camera
-//        cameraNode.position = SCNVector3(x: 0, y: 0, z: 15)
-//
-//        // create and add a light to the scene
-//        let lightNode = SCNNode()
-//        lightNode.light = SCNLight()
-//        lightNode.light!.type = .omni
-//        lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
-//        scene.rootNode.addChildNode(lightNode)
-//
-//        // create and add an ambient light to the scene
-//        let ambientLightNode = SCNNode()
-//        ambientLightNode.light = SCNLight()
-//        ambientLightNode.light!.type = .ambient
-//        ambientLightNode.light!.color = UIColor.darkGray
-//        scene.rootNode.addChildNode(ambientLightNode)
-//
-		
-        // retrieve the SCNView
-        scnView = self.view as! SCNView
+//        sceneView.clipsToBounds = true
+//        sceneView.translatesAutoresizingMaskIntoConstraints = false
         
-        // set the scene to the view
-        scnView.scene = scene
-		
-		scnView.delegate = self
+//        NSLayoutConstraint.activate([
+//            sceneView.leadingAnchor.constraint(equalTo: self.liveViewSafeAreaGuide.leadingAnchor),
+//            sceneView.trailingAnchor.constraint(equalTo: self.liveViewSafeAreaGuide.trailingAnchor),
+//            sceneView.topAnchor.constraint(equalTo: self.liveViewSafeAreaGuide.topAnchor),
+//            sceneView.bottomAnchor.constraint(equalTo: self.liveViewSafeAreaGuide.bottomAnchor)
+//            ])
+        
+        sceneView.delegate = self
+        
+        let scene = SCNScene(named: "art.scnassets/Scene/GameScene.scn")!
+        sceneView.scene = scene
 		
 		setupHUD()
 		
 		setupTimer()
         
         // allows the user to manipulate the camera
-        scnView.allowsCameraControl = true
+        sceneView.allowsCameraControl = true
 		
         // show statistics such as fps and timing information
-        scnView.showsStatistics = true
+        sceneView.showsStatistics = true
         
         // add a tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(fireLazer))
-        scnView.addGestureRecognizer(tapGesture)
+        sceneView.addGestureRecognizer(tapGesture)
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -103,7 +87,7 @@ class GameViewController: UIViewController {
 		
 		let lazer = SCNParticleSystem(named: "lazer.scnp", inDirectory: nil)!
 		
-		let force = SCNVector3(x: 0, y: 0 , z: -8)
+		let force = SCNVector3(x: 0, y: 0 , z: -30)
 		geometryNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
 		geometryNode.physicsBody?.applyForce(force, asImpulse: true)
 		geometryNode.physicsBody?.isAffectedByGravity = false
@@ -175,6 +159,10 @@ class GameViewController: UIViewController {
         }
     }
 
+}
+
+extension GameViewController: ARSCNViewDelegate {
+    
 }
 
 extension GameViewController: SCNSceneRendererDelegate {
