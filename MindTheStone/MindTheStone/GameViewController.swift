@@ -7,64 +7,121 @@
 //
 
 import UIKit
-import QuartzCore
 import SceneKit
 
 class GameViewController: UIViewController {
+	
+	var scene: SCNScene!
+	var scnView: SCNView!
+	var wallNode: SCNNode!
+	
+	var centerPosition: CGPoint!
+	
+	private var stones = Set<StoneNode>()
+	
+	private lazy var generator: Timer = {
+		return Timer(timeInterval: 1.0, repeats: true) { [weak self](_) in
+			self?.spawnStone()
+		}
+	}()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
+        scene = SCNScene(named: "art.scnassets/Scene/GameScene.scn")!
+		
         
-        // create and add a camera to the scene
-        let cameraNode = SCNNode()
-        cameraNode.camera = SCNCamera()
-        scene.rootNode.addChildNode(cameraNode)
-        
-        // place the camera
-        cameraNode.position = SCNVector3(x: 0, y: 0, z: 15)
-        
-        // create and add a light to the scene
-        let lightNode = SCNNode()
-        lightNode.light = SCNLight()
-        lightNode.light!.type = .omni
-        lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
-        scene.rootNode.addChildNode(lightNode)
-        
-        // create and add an ambient light to the scene
-        let ambientLightNode = SCNNode()
-        ambientLightNode.light = SCNLight()
-        ambientLightNode.light!.type = .ambient
-        ambientLightNode.light!.color = UIColor.darkGray
-        scene.rootNode.addChildNode(ambientLightNode)
-        
-        // retrieve the ship node
-        let ship = scene.rootNode.childNode(withName: "ship", recursively: true)!
-        
-        // animate the 3d object
-        ship.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 2, z: 0, duration: 1)))
-        
+//        // create and add a camera to the scene
+//        let cameraNode = SCNNode()
+//        cameraNode.camera = SCNCamera()
+//        scene.rootNode.addChildNode(cameraNode)
+//
+//        // place the camera
+//        cameraNode.position = SCNVector3(x: 0, y: 0, z: 15)
+//
+//        // create and add a light to the scene
+//        let lightNode = SCNNode()
+//        lightNode.light = SCNLight()
+//        lightNode.light!.type = .omni
+//        lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
+//        scene.rootNode.addChildNode(lightNode)
+//
+//        // create and add an ambient light to the scene
+//        let ambientLightNode = SCNNode()
+//        ambientLightNode.light = SCNLight()
+//        ambientLightNode.light!.type = .ambient
+//        ambientLightNode.light!.color = UIColor.darkGray
+//        scene.rootNode.addChildNode(ambientLightNode)
+//
+		
         // retrieve the SCNView
-        let scnView = self.view as! SCNView
+        scnView = self.view as! SCNView
         
         // set the scene to the view
         scnView.scene = scene
+		
+		scnView.delegate = self
+		
+		setupHUD()
+		
+		setupTimer()
         
         // allows the user to manipulate the camera
         scnView.allowsCameraControl = true
-        
+		
         // show statistics such as fps and timing information
         scnView.showsStatistics = true
         
-        // configure the view
-        scnView.backgroundColor = UIColor.black
-        
         // add a tap gesture recognizer
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(fireLazer))
         scnView.addGestureRecognizer(tapGesture)
     }
+	
+	override func viewWillAppear(_ animated: Bool) {
+		spawnStone()
+	}
+	
+	func setupNode() {
+		wallNode = scene.rootNode.childNode(withName: "wall", recursively: false)
+	}
+	
+	func setupTimer() {
+		DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [unowned self] in
+			RunLoop.main.add(self.generator, forMode: RunLoop.Mode.common)
+		}
+	}
+	
+	@objc func fireLazer() {
+		
+		let geometry = SCNSphere(radius: 0.1)
+		geometry.firstMaterial?.diffuse.contents = UIColor.blue
+
+		let geometryNode = SCNNode(geometry: geometry)
+		
+		geometryNode.position = SCNVector3(x: 6, y: 4, z: 0)
+		
+		let lazer = SCNParticleSystem(named: "lazer.scnp", inDirectory: nil)!
+		
+		let force = SCNVector3(x: 0, y: 0 , z: -8)
+		geometryNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+		geometryNode.physicsBody?.applyForce(force, asImpulse: true)
+		geometryNode.physicsBody?.isAffectedByGravity = false
+		
+		geometryNode.addParticleSystem(lazer)
+
+		
+		scene.rootNode.addChildNode(geometryNode)
+	}
+	
+	func setupHUD() {
+		let screenFrame = UIScreen.main.bounds
+		centerPosition = CGPoint(x: screenFrame.width / 2 - 15, y: screenFrame.height / 2  - 15)
+		let img = UIImageView(frame: CGRect(origin: centerPosition, size: CGSize(width: 30, height: 30)))
+		img.image = UIImage(named: "hud")
+		img.contentMode = .scaleAspectFit
+		self.view.addSubview(img)
+	}
     
     @objc
     func handleTap(_ gestureRecognize: UIGestureRecognizer) {
@@ -118,4 +175,31 @@ class GameViewController: UIViewController {
         }
     }
 
+}
+
+extension GameViewController: SCNSceneRendererDelegate {
+	@objc func spawnStone() {
+		
+		let x: Float = Float(arc4random() % 10)
+		let y: Float = Float(arc4random() % 10)
+		let z: Float = -8
+		
+		let stoneNode = StoneNode.spawnStone()
+		stoneNode.position = SCNVector3(x, y, z)
+		
+		self.stones.insert(stoneNode)
+		let physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+		physicsBody.isAffectedByGravity = false
+		physicsBody.applyForce(SCNVector3(0, 0, 5), asImpulse: true)
+		physicsBody.mass = 0.1
+		
+		
+		stoneNode.physicsBody = physicsBody
+		
+		scene.rootNode.addChildNode(stoneNode)
+	}
+	
+	func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+		print("redner")
+	}
 }

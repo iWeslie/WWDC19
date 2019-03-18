@@ -13,6 +13,9 @@
 		D316D8FB223E85E2009CDF2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D316D8F9223E85E2009CDF2A /* Main.storyboard */; };
 		D316D8FD223E85E3009CDF2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D316D8FC223E85E3009CDF2A /* Assets.xcassets */; };
 		D316D900223E85E3009CDF2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D316D8FE223E85E3009CDF2A /* LaunchScreen.storyboard */; };
+		D3906E19223F8DE50004413D /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = D3906E17223F8DE50004413D /* spark.png */; };
+		D3906E1A223F8DE50004413D /* lazer.scnp in Resources */ = {isa = PBXBuildFile; fileRef = D3906E18223F8DE50004413D /* lazer.scnp */; };
+		D3D08E10223F75DD000FEBC5 /* StoneNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D08E0F223F75DD000FEBC5 /* StoneNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,7 +27,9 @@
 		D316D8FC223E85E3009CDF2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D316D8FF223E85E3009CDF2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D316D901223E85E3009CDF2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D316D909223E8BAF009CDF2A /* Rock1.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Rock1.scn; sourceTree = "<group>"; };
+		D3906E17223F8DE50004413D /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
+		D3906E18223F8DE50004413D /* lazer.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = lazer.scnp; sourceTree = "<group>"; };
+		D3D08E0F223F75DD000FEBC5 /* StoneNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoneNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,9 +63,11 @@
 			isa = PBXGroup;
 			children = (
 				D316D8F3223E85E2009CDF2A /* AppDelegate.swift */,
-				D316D909223E8BAF009CDF2A /* Rock1.scn */,
+				D3906E17223F8DE50004413D /* spark.png */,
+				D3906E18223F8DE50004413D /* lazer.scnp */,
 				D316D8F5223E85E2009CDF2A /* art.scnassets */,
 				D316D8F7223E85E2009CDF2A /* GameViewController.swift */,
+				D3D08E0F223F75DD000FEBC5 /* StoneNode.swift */,
 				D316D8F9223E85E2009CDF2A /* Main.storyboard */,
 				D316D8FC223E85E3009CDF2A /* Assets.xcassets */,
 				D316D8FE223E85E3009CDF2A /* LaunchScreen.storyboard */,
@@ -127,9 +134,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3906E19223F8DE50004413D /* spark.png in Resources */,
 				D316D8F6223E85E2009CDF2A /* art.scnassets in Resources */,
 				D316D900223E85E3009CDF2A /* LaunchScreen.storyboard in Resources */,
 				D316D8FD223E85E3009CDF2A /* Assets.xcassets in Resources */,
+				D3906E1A223F8DE50004413D /* lazer.scnp in Resources */,
 				D316D8FB223E85E2009CDF2A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -141,6 +150,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3D08E10223F75DD000FEBC5 /* StoneNode.swift in Sources */,
 				D316D8F8223E85E2009CDF2A /* GameViewController.swift in Sources */,
 				D316D8F4223E85E2009CDF2A /* AppDelegate.swift in Sources */,
 			);
