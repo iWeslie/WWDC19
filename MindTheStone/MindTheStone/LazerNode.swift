@@ -21,7 +21,7 @@ public class LazerNode: SCNNode {
 	public static func fireLazer(acc: SCNVector3) -> LazerNode {
 		let node = LazerNode()
 		
-		let geometry = SCNSphere(radius: 0.001)
+		let geometry = SCNSphere(radius: 0.005)
 		geometry.firstMaterial?.diffuse.contents = UIColor.blue
 		
 		node.geometry = geometry

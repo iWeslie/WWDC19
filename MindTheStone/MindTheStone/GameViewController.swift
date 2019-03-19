@@ -59,7 +59,9 @@ class GameViewController: UIViewController {
         scene = sceneView.scene
 		
 		//显示debug特征点
-		sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
+		sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWireframe, ARSCNDebugOptions.showPhysicsFields, ARSCNDebugOptions.showPhysicsShapes]
+        
+//        testNode()
 		
 		setupHUD()
 		
@@ -74,6 +76,25 @@ class GameViewController: UIViewController {
         // add a tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         sceneView.addGestureRecognizer(tapGesture)
+    }
+    
+    func testNode() {
+        let stone = SCNScene(named: "art.scnassets/Scene/GameScene.scn")!
+        sceneView.scene = stone
+    }
+    
+    @objc
+    func testTap() {
+        
+        let cylinder = SCNCylinder(radius: 0.1, height: 3)
+        cylinder.firstMaterial?.diffuse.contents = UIColor.red
+
+        let cylinderNode = SCNNode(geometry: cylinder)
+        cylinderNode.position = SCNVector3(x: 0, y: 0, z: -3)
+        
+        
+        
+        sceneView.scene.rootNode.addChildNode(cylinderNode)
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -227,12 +248,15 @@ extension GameViewController: ARSCNViewDelegate {
 			planeNode?.eulerAngles.x = -.pi / 2
 			node.addChildNode(planeNode!)
 			
-			let base = SCNBox(width: 0.5, height: 0, length: 0.5, chamferRadius: 0)
-			base.firstMaterial?.diffuse.contents = UIColor.blue
+			let base = SCNBox(width: 1, height: 0, length: 1, chamferRadius: 0)
+			base.firstMaterial?.diffuse.contents = UIColor.lightGray
 			baseNode = SCNNode(geometry: base)
 			baseNode?.position = SCNVector3Make(planeAnchor.center.x, 0, planeAnchor.center.z);
 			
 			node.addChildNode(baseNode!)
+            
+            print((planeNode?.geometry as! SCNPlane).width)
+            
 		}
 	}
 	
@@ -298,11 +322,12 @@ extension GameViewController: SCNSceneRendererDelegate {
 		guard let baseNode = baseNode else { return }
 		
 		
-		let x = Float.random(in: -0.1...0.1)
+		let x = Float.random(in: -1...1)
 		
-//		let y: Float = Float(arc4random() % 0.1)
-		let y = baseNode.position.y
-		let z = Float.random(in: -0.1...0.1)
+        let y = Float.random(in: -1...1)
+//        let y = baseNode.position.y
+//        let z = Float.random(in: -0.1...0.1)
+        let z = baseNode.position.z
 		
 		let stoneNode = StoneNode.spawnStone()
 		stoneNode.position = SCNVector3(x, y, z)
@@ -310,9 +335,8 @@ extension GameViewController: SCNSceneRendererDelegate {
 		self.stones.insert(stoneNode)
 		let physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
 		physicsBody.isAffectedByGravity = false
-		physicsBody.applyForce(SCNVector3(0, 0.05, 0), asImpulse: true)
-		physicsBody.mass = 0.1
-		
+		physicsBody.applyForce(SCNVector3(0, 0, 0.2), asImpulse: true)
+//        physicsBody.mass = 0.1
 		
 		stoneNode.physicsBody = physicsBody
 		
@@ -328,8 +352,11 @@ extension GameViewController: SCNPhysicsContactDelegate {
 	func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
 		
 		if contact.nodeA.categoryBitMask == CollisionCategory.lazer.rawValue {
-			print("hit stone")
-		}
+			print("hit stone A")
+        }
+        if contact.nodeB.categoryBitMask == CollisionCategory.lazer.rawValue {
+            print("hit stone B")
+        }
 	}
 }
 

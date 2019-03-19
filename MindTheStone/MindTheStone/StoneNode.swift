@@ -21,8 +21,9 @@ public class StoneNode: SCNNode {
 	public static func spawnStone() -> StoneNode {
 		let stoneNode = StoneNode()
 		
-		let sphere = SCNSphere(radius: 0.02)
-		sphere.firstMaterial?.diffuse.contents = UIColor.red
+		let sphere = SCNSphere(radius: 0.2)
+//        sphere.firstMaterial?.diffuse.contents = UIImage(named: "stone_1.jpg")
+        sphere.firstMaterial?.diffuse.contents = UIColor.red
 		stoneNode.geometry = sphere
 		
 		stoneNode.physicsBody = SCNPhysicsBody()
