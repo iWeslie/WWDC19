@@ -20,16 +20,17 @@ public class StoneNode: SCNNode {
 	
 	public static func spawnStone() -> StoneNode {
 		let stoneNode = StoneNode()
+		stoneNode.name = "stone"
 		
-		let sphere = SCNSphere(radius: 0.2)
-//        sphere.firstMaterial?.diffuse.contents = UIImage(named: "stone_1.jpg")
-        sphere.firstMaterial?.diffuse.contents = UIColor.red
+//		let sphere = SCNSphere(radius: 0.1)
+		let sphere = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.01)
+		
+		sphere.firstMaterial?.diffuse.contents = UIImage(named: "art.scnassets/Texture/stone_2.jpg")
 		stoneNode.geometry = sphere
 		
-		stoneNode.physicsBody = SCNPhysicsBody()
-		stoneNode.physicsBody?.isAffectedByGravity = false
 		let shape = SCNPhysicsShape(geometry: sphere, options: nil)
 		stoneNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: shape)
+		stoneNode.physicsBody?.isAffectedByGravity = false
 		
 		stoneNode.physicsBody?.categoryBitMask = CollisionCategory.stone.rawValue
 		stoneNode.physicsBody?.contactTestBitMask = CollisionCategory.lazer.rawValue | CollisionCategory.ship.rawValue

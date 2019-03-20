@@ -19,16 +19,12 @@ public class LazerNode: SCNNode {
 	}
 	
 	public static func fireLazer(acc: SCNVector3) -> LazerNode {
-		let node = LazerNode()
+		let lazerNode = LazerNode()
 		
-		let geometry = SCNSphere(radius: 0.005)
-		geometry.firstMaterial?.diffuse.contents = UIColor.blue
+		let sphere = SCNSphere(radius: 0.005)
+		sphere.firstMaterial?.diffuse.contents = UIColor.blue
 		
-		node.geometry = geometry
-		
-		let shape = SCNPhysicsShape(geometry: SCNSphere(radius: 0.01), options: nil)
-		node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: shape)
-		node.physicsBody?.isAffectedByGravity = false
+		lazerNode.geometry = sphere
 		
 		let lazer = SCNParticleSystem(named: "lazer.scnp", inDirectory: nil)!
 		lazer.acceleration = acc * (-1) - SCNVector3(x: 0, y: 0.03, z: 0)
@@ -36,10 +32,14 @@ public class LazerNode: SCNNode {
 		DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
 			lazer.acceleration = acc * (-1)
 		}
-		node.addParticleSystem(lazer)
+		lazerNode.addParticleSystem(lazer)
 		
-		node.physicsBody?.categoryBitMask = CollisionCategory.lazer.rawValue
-		node.physicsBody?.contactTestBitMask = CollisionCategory.stone.rawValue | CollisionCategory.coin.rawValue
+		let shape = SCNPhysicsShape(geometry: sphere, options: nil)
+		lazerNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: shape)
+		lazerNode.physicsBody?.isAffectedByGravity = false
+		
+		lazerNode.physicsBody?.categoryBitMask = CollisionCategory.lazer.rawValue
+		lazerNode.physicsBody?.contactTestBitMask = CollisionCategory.stone.rawValue | CollisionCategory.coin.rawValue
 		
 		//		let material = SCNMaterial()
 		//		let n = arc4random() % 10
@@ -57,7 +57,7 @@ public class LazerNode: SCNNode {
 		//		whiteMaterial.diffuse.contents = targetNode.typeColor
 		//		targetNode.geometry?.materials = [whiteMaterial, material, material]
 		
-		return node
+		return lazerNode
 	}
 }
 

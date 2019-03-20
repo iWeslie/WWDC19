@@ -14,24 +14,28 @@ class GameViewController: UIViewController {
 	
 	public var sceneView: ARSCNView = ARSCNView()
 	
-	var baseNode: SCNNode?
+//	var baseNode: SCNNode?
 	var planeNode: SCNNode?
 	var gameNode:SCNNode?
 
 	var updateCount = 0
 	
 	var playBtn: UIButton?
+	var hudImg: UIImageView?
 	
 	var scene: SCNScene!
 	var wallNode: SCNNode!
 	
-	var centerPosition: CGPoint!
+	var viewCenter: CGPoint {
+		let viewBounds = view.bounds
+		return CGPoint(x: viewBounds.width / 2.0, y: viewBounds.height / 2.0)
+	}
 	
 	private var stones = Set<StoneNode>()
 	
 	private lazy var generator: Timer = {
-		return Timer(timeInterval: 1.0, repeats: true) { [weak self](_) in
-			self?.spawnStone()
+		return Timer(timeInterval: 1.0, repeats: true) {_ in 
+			self.spawnStone()
 		}
 	}()
 
@@ -77,25 +81,18 @@ class GameViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         sceneView.addGestureRecognizer(tapGesture)
     }
-    
+	
+//	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//		if let hit = sceneView.hitTest(viewCenter, types: [.existingPlaneUsingExtent]).first {
+//			sceneView.session.add(anchor: ARAnchor(transform: hit.worldTransform))
+//		}
+//	}
+	
     func testNode() {
         let stone = SCNScene(named: "art.scnassets/Scene/GameScene.scn")!
         sceneView.scene = stone
     }
-    
-    @objc
-    func testTap() {
-        
-        let cylinder = SCNCylinder(radius: 0.1, height: 3)
-        cylinder.firstMaterial?.diffuse.contents = UIColor.red
 
-        let cylinderNode = SCNNode(geometry: cylinder)
-        cylinderNode.position = SCNVector3(x: 0, y: 0, z: -3)
-        
-        
-        
-        sceneView.scene.rootNode.addChildNode(cylinderNode)
-    }
 	
 	override func viewWillAppear(_ animated: Bool) {
 		guard ARWorldTrackingConfiguration.isSupported else {
@@ -146,11 +143,11 @@ class GameViewController: UIViewController {
 	
 	func setupHUD() {
 		let screenFrame = UIScreen.main.bounds
-		centerPosition = CGPoint(x: screenFrame.width / 2 - 15, y: screenFrame.height / 2  - 15)
-		let img = UIImageView(frame: CGRect(origin: centerPosition, size: CGSize(width: 30, height: 30)))
-		img.image = UIImage(named: "hud")
-		img.contentMode = .scaleAspectFit
-		self.view.addSubview(img)
+		let centerPosition = CGPoint(x: screenFrame.width / 2 - 15, y: screenFrame.height / 2  - 15)
+		let hudImg = UIImageView(frame: CGRect(origin: centerPosition, size: CGSize(width: 30, height: 30)))
+		hudImg.image = UIImage(named: "hud")
+		hudImg.contentMode = .scaleAspectFit
+		self.view.addSubview(hudImg)
 		
 		playBtn = UIButton(frame: CGRect(x: 100, y: 100, width: 100, height: 30))
 		playBtn?.setTitle("Play", for: .normal)
@@ -242,26 +239,33 @@ extension GameViewController: ARSCNViewDelegate {
 			let plane = SCNPlane(width: CGFloat(planeAnchor.extent.x), height: CGFloat(planeAnchor.extent.z))
 			plane.firstMaterial?.diffuse.contents = UIColor.red
 			
-			planeNode = SCNNode(geometry: plane)
-			planeNode?.simdPosition = float3(planeAnchor.center.x, 0, planeAnchor.center.z)
-			planeNode?.opacity = 0.25
-			planeNode?.eulerAngles.x = -.pi / 2
-			node.addChildNode(planeNode!)
+			let debugPlaneNode = createPlaneNode(center: planeAnchor.center, extent: planeAnchor.extent)
+			debugPlaneNode.name = "debugPlaneNode"
 			
-			let base = SCNBox(width: 1, height: 0, length: 1, chamferRadius: 0)
-			base.firstMaterial?.diffuse.contents = UIColor.lightGray
-			baseNode = SCNNode(geometry: base)
-			baseNode?.position = SCNVector3Make(planeAnchor.center.x, 0, planeAnchor.center.z);
+			planeNode = debugPlaneNode
 			
-			node.addChildNode(baseNode!)
-            
-            print((planeNode?.geometry as! SCNPlane).width)
-            
+			node.addChildNode(debugPlaneNode)
+//			self.debugPlanes.append(debugPlaneNode)
+			
+			
+//			planeNode = SCNNode(geometry: plane)
+//			planeNode?.simdPosition = float3(planeAnchor.center.x, 0, planeAnchor.center.z)
+//			planeNode?.opacity = 0.25
+//			planeNode?.eulerAngles.x = -.pi / 2
+//			node.addChildNode(planeNode!)
+//
+//			let base = SCNBox(width: 1, height: 0, length: 1, chamferRadius: 0)
+//			base.firstMaterial?.diffuse.contents = UIColor.lightGray
+//			baseNode = SCNNode(geometry: base)
+//			baseNode?.position = SCNVector3Make(planeAnchor.center.x, 0, planeAnchor.center.z);
+//
+//			node.addChildNode(baseNode!)
+			
 		}
 	}
 	
 	func renderer(_ renderer: SCNSceneRenderer, willUpdate node: SCNNode, for anchor: ARAnchor) {
-		guard let planeAnchor = anchor as?  ARPlaneAnchor,
+		guard let planeAnchor = anchor as? ARPlaneAnchor,
 			let planeNode = node.childNodes.first,
 			let plane = planeNode.geometry as? SCNPlane
 			else { return }
@@ -282,7 +286,7 @@ extension GameViewController: ARSCNViewDelegate {
 		
 		
 		// 平面的中心点可以会变动.
-		planeNode.simdPosition = float3(planeAnchor.center.x, 0, planeAnchor.center.z)
+//		planeNode.simdPosition = float3(planeAnchor.center.x, 0, planeAnchor.center.z)
 		
 		/*
 		平面尺寸可能会变大,或者把几个小平面合并为一个大平面.合并时,`ARSCNView`自动删除同一个平面上的相应节点,然后调用该方法来更新保留的另一个平面的尺寸.(经过测试,合并时,保留第一个检测到的平面和对应节点)
@@ -319,28 +323,32 @@ extension GameViewController: ARSCNViewDelegate {
 extension GameViewController: SCNSceneRendererDelegate {
 	@objc func spawnStone() {
 		
-		guard let baseNode = baseNode else { return }
+//		let testNode = 
+		
+		guard let planeNode = planeNode else { return }
 		
 		
 		let x = Float.random(in: -1...1)
-		
+//		let x = planeNode.position.x
         let y = Float.random(in: -1...1)
-//        let y = baseNode.position.y
+//        let y = planeNode.position.y
 //        let z = Float.random(in: -0.1...0.1)
-        let z = baseNode.position.z
+        let z = planeNode.position.z
 		
 		let stoneNode = StoneNode.spawnStone()
 		stoneNode.position = SCNVector3(x, y, z)
 		
-		self.stones.insert(stoneNode)
-		let physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-		physicsBody.isAffectedByGravity = false
-		physicsBody.applyForce(SCNVector3(0, 0, 0.2), asImpulse: true)
-//        physicsBody.mass = 0.1
+//		self.stones.insert(stoneNode)
 		
-		stoneNode.physicsBody = physicsBody
+		stoneNode.physicsBody?.applyForce(SCNVector3(0, 0, 0.2), asImpulse: true)
 		
-		scene.rootNode.addChildNode(stoneNode)
+		
+//		scene.rootNode.addChildNode(stoneNode)
+		
+		if let planeNode = scene.rootNode.childNode(withName: "debugPlaneNode", recursively: true) {
+			
+			planeNode.addChildNode(stoneNode)
+		}
 	}
 	
 	func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
@@ -351,12 +359,36 @@ extension GameViewController: SCNSceneRendererDelegate {
 extension GameViewController: SCNPhysicsContactDelegate {
 	func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
 		
-		if contact.nodeA.categoryBitMask == CollisionCategory.lazer.rawValue {
-			print("hit stone A")
-        }
-        if contact.nodeB.categoryBitMask == CollisionCategory.lazer.rawValue {
-            print("hit stone B")
-        }
+		let lazerNode = contact.nodeB
+		if lazerNode.physicsBody?.categoryBitMask == CollisionCategory.lazer.rawValue {
+			print("lazer hit")
+//			lazerNode.removeFromParentNode()
+//
+//			let particle = SCNParticleSystem(named: "explosion", inDirectory: nil)!
+//			let systemNode = SCNNode()
+//			systemNode.addParticleSystem(particle)
+//			systemNode.position = contact.nodeA.position
+//
+////			planeNode?.addChildNode(systemNode)
+			
+//			sceneView.scene.rootNode.addChildNode(systemNode)
+			
+//			contact.nodeA.removeFromParentNode()
+			
+			lazerNode.removeFromParentNode()
+			
+			let particleSystem = SCNParticleSystem(named: "explosion", inDirectory: nil)
+			let systemNode = SCNNode()
+			systemNode.addParticleSystem(particleSystem!)
+			contact.nodeA.addChildNode(systemNode)
+			contact.nodeA.physicsBody = SCNPhysicsBody()
+			contact.nodeA.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
+			
+//			DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5), execute: {
+//				contact.nodeA.removeFromParentNode()
+//			})
+		}
+		
 	}
 }
 
@@ -379,6 +411,33 @@ extension GameViewController {
 		updateCount = 0
 		sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
 	}
+	
+	private func removeNodeWithExplosion(_ node: SCNNode) {
+		let particleSystem = SCNParticleSystem(named: "explosion", inDirectory: nil)
+		let systemNode = SCNNode()
+		systemNode.addParticleSystem(particleSystem!)
+		systemNode.position = node.position
+		sceneView.scene.rootNode.addChildNode(systemNode)
+//		nodeA.addChildNode(systemNode)
+		
+		node.removeFromParentNode()
+	}
 
+	
+	func createPlaneNode(center: vector_float3,
+						 extent: vector_float3) -> SCNNode {
+		
+		let plane = SCNPlane(width: CGFloat(extent.x), height: CGFloat(extent.z))
+		
+		let planeMaterial = SCNMaterial()
+		planeMaterial.diffuse.contents = UIColor.yellow.withAlphaComponent(0.4)
+		plane.materials = [planeMaterial]
+		
+		let planeNode = SCNNode(geometry: plane)
+		planeNode.position = SCNVector3Make(center.x, 0, center.z)
+		planeNode.transform = SCNMatrix4MakeRotation(-Float.pi / 2, 1, 0, 0)
+		
+		return planeNode
+	}
 }
 
