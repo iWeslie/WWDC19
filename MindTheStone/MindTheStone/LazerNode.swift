@@ -34,28 +34,12 @@ public class LazerNode: SCNNode {
 		}
 		lazerNode.addParticleSystem(lazer)
 		
-		let shape = SCNPhysicsShape(geometry: sphere, options: nil)
+		let shape = SCNPhysicsShape(geometry: SCNSphere(radius: 0.01), options: nil)
 		lazerNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: shape)
 		lazerNode.physicsBody?.isAffectedByGravity = false
 		
 		lazerNode.physicsBody?.categoryBitMask = CollisionCategory.lazer.rawValue
 		lazerNode.physicsBody?.contactTestBitMask = CollisionCategory.stone.rawValue | CollisionCategory.coin.rawValue
-		
-		//		let material = SCNMaterial()
-		//		let n = arc4random() % 10
-		//		if n <= 1 {
-		//			targetNode.type = TargetNodeType(typeNum: .high)
-		//			material.diffuse.contents = UIImage(named: "target-high")
-		//		} else if n >= 8 {
-		//			targetNode.type = TargetNodeType(typeNum: .demon)
-		//			material.diffuse.contents = UIImage(named: "target-demon")
-		//		} else {
-		//			targetNode.type = TargetNodeType(typeNum: .normal)
-		//			material.diffuse.contents = UIImage(named: "target-normal")
-		//		}
-		//		let whiteMaterial = SCNMaterial()
-		//		whiteMaterial.diffuse.contents = targetNode.typeColor
-		//		targetNode.geometry?.materials = [whiteMaterial, material, material]
 		
 		return lazerNode
 	}

@@ -33,9 +33,15 @@ class GameViewController: UIViewController {
 	
 	private var stones = Set<StoneNode>()
 	
-	private lazy var generator: Timer = {
+	private lazy var stoneGenerator: Timer = {
 		return Timer(timeInterval: 1.0, repeats: true) {_ in 
 			self.spawnStone()
+		}
+	}()
+	
+	private lazy var coinGenerator: Timer = {
+		return Timer(timeInterval: 5.0, repeats: true) {_ in
+			self.spawnCoin()
 		}
 	}()
 
@@ -56,20 +62,13 @@ class GameViewController: UIViewController {
         
         sceneView.delegate = self
 		sceneView.scene.physicsWorld.contactDelegate = self
-		
-//		sceneView.session.delegate = self
-		
 //        let scene = SCNScene(named: "art.scnassets/Scene/GameScene.scn")!
         scene = sceneView.scene
 		
-		//显示debug特征点
-		sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWireframe, ARSCNDebugOptions.showPhysicsFields, ARSCNDebugOptions.showPhysicsShapes]
-        
-//        testNode()
+		sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
 		
 		setupHUD()
-		
-		setupTimer()
+		setupShip()
 		
         // allows the user to manipulate the camera
 //        sceneView.allowsCameraControl = true
@@ -109,13 +108,14 @@ class GameViewController: UIViewController {
 		resetAll()
 	}
 	
-	func setupNode() {
-//		wallNode = scene.rootNode.childNode(withName: "wall", recursively: false)
+	func setupShip() {
+		
 	}
 	
 	func setupTimer() {
-		DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [unowned self] in
-			RunLoop.main.add(self.generator, forMode: RunLoop.Mode.common)
+		DispatchQueue.main.async {
+			RunLoop.main.add(self.stoneGenerator, forMode: RunLoop.Mode.common)
+			RunLoop.main.add(self.coinGenerator, forMode: RunLoop.Mode.common)
 		}
 	}
 	
@@ -161,57 +161,27 @@ class GameViewController: UIViewController {
 	}
 	
 	@objc func playBtnClicked() {
+		sceneView.debugOptions = []
 		stopTracking()
+		setupTimer()
 		
-		spawnStone()
+		planeNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
 		
-		// load game scene
-		
-//		gameNode?.removeFromParentNode()
-//		gameNode = SCNNode()
-		
+		let skyPlane = SCNPlane(width: 30, height: 24)
+		skyPlane.firstMaterial?.diffuse.contents = UIImage(named: "sky.jpg")
+		let skyNode = SCNNode(geometry: skyPlane)
+		sceneView.scene.rootNode.addChildNode(skyNode)
+		skyNode.position = SCNVector3(x: 0, y: 0, z: -10)
+
+ 
 	}
 	
-    @objc
-    func handleTap(_ gestureRecognize: UIGestureRecognizer) {
-		
+    @objc func handleTap(_ gestureRecognize: UIGestureRecognizer) {
 		let (direction, currentVector) = fetchUserLocation(in: self.sceneView.session.currentFrame)
-		
-//		let geometry = SCNSphere(radius: 0.001)
-//		geometry.firstMaterial?.diffuse.contents = UIColor.blue
-//
-//		let geometryNode = SCNNode(geometry: geometry)
-//
-//
-//		geometryNode.position = currentVector
-//
-//		let shape = SCNPhysicsShape(geometry: geometry, options: nil)
-//		geometryNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: shape)
-//		geometryNode.physicsBody?.isAffectedByGravity = false
-//		geometryNode.physicsBody?.applyForce(direction * 5, asImpulse: true)
-//
-//		let lazer = SCNParticleSystem(named: "lazer.scnp", inDirectory: nil)!
-//		lazer.acceleration = direction * (-1) - SCNVector3(x: 0, y: 0.03, z: 0)
-//		DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
-//			lazer.acceleration = direction * (-1)
-//		}
-//		geometryNode.addParticleSystem(lazer)
-
 		let geometryNode = LazerNode.fireLazer(acc: direction)
 		geometryNode.position = currentVector
-		geometryNode.physicsBody?.applyForce(direction * 5, asImpulse: true)
-		
-//		let lazer = SCNParticleSystem(named: "lazer.scnp", inDirectory: nil)!
-//		lazer.acceleration = direction * (-1) - SCNVector3(x: 0, y: 0.03, z: 0)
-//		
-//		DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
-//			lazer.acceleration = direction * (-1)
-//		}
-//		geometryNode.addParticleSystem(lazer)
-		
-		
+		geometryNode.physicsBody?.applyForce(direction * 20, asImpulse: true)
 		scene.rootNode.addChildNode(geometryNode)
-		
     }
 	
     override var shouldAutorotate: Bool {
@@ -246,21 +216,6 @@ extension GameViewController: ARSCNViewDelegate {
 			
 			node.addChildNode(debugPlaneNode)
 //			self.debugPlanes.append(debugPlaneNode)
-			
-			
-//			planeNode = SCNNode(geometry: plane)
-//			planeNode?.simdPosition = float3(planeAnchor.center.x, 0, planeAnchor.center.z)
-//			planeNode?.opacity = 0.25
-//			planeNode?.eulerAngles.x = -.pi / 2
-//			node.addChildNode(planeNode!)
-//
-//			let base = SCNBox(width: 1, height: 0, length: 1, chamferRadius: 0)
-//			base.firstMaterial?.diffuse.contents = UIColor.lightGray
-//			baseNode = SCNNode(geometry: base)
-//			baseNode?.position = SCNVector3Make(planeAnchor.center.x, 0, planeAnchor.center.z);
-//
-//			node.addChildNode(baseNode!)
-			
 		}
 	}
 	
@@ -274,14 +229,9 @@ extension GameViewController: ARSCNViewDelegate {
 		
 		
 		if updateCount > 20 {
-//			print("prepare to start game")
-			
 			DispatchQueue.main.async {
 				self.playBtn?.isHidden = false
 			}
-			
-			
-//			stopTracking()
 		}
 		
 		
@@ -295,11 +245,7 @@ extension GameViewController: ARSCNViewDelegate {
 		plane.height = CGFloat(planeAnchor.extent.z)
 	}
 	
-	
-//	func session(_ session: ARSession, didUpdate frame: ARFrame) {
-//		print(frame.camera.transform)
-//	}
-//
+
 	// MARK: - ARSessionObserver
 	func session(_ session: ARSession, didFailWithError error: Error) {
 		print("session didFailWithError: \(error.localizedDescription)")
@@ -321,38 +267,13 @@ extension GameViewController: ARSCNViewDelegate {
 }
 
 extension GameViewController: SCNSceneRendererDelegate {
-	@objc func spawnStone() {
-		
-//		let testNode = 
-		
-		guard let planeNode = planeNode else { return }
-		
-		
-		let x = Float.random(in: -1...1)
-//		let x = planeNode.position.x
-        let y = Float.random(in: -1...1)
-//        let y = planeNode.position.y
-//        let z = Float.random(in: -0.1...0.1)
-        let z = planeNode.position.z
-		
-		let stoneNode = StoneNode.spawnStone()
-		stoneNode.position = SCNVector3(x, y, z)
-		
-//		self.stones.insert(stoneNode)
-		
-		stoneNode.physicsBody?.applyForce(SCNVector3(0, 0, 0.2), asImpulse: true)
-		
-		
-//		scene.rootNode.addChildNode(stoneNode)
-		
-		if let planeNode = scene.rootNode.childNode(withName: "debugPlaneNode", recursively: true) {
-			
-			planeNode.addChildNode(stoneNode)
-		}
-	}
-	
 	func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-		// ...
+		for stone in stones {
+			if stone.position.z > 1 {
+				stones.remove(stone)
+				stone.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
+			}
+		}
 	}
 }
 
@@ -361,20 +282,6 @@ extension GameViewController: SCNPhysicsContactDelegate {
 		
 		let lazerNode = contact.nodeB
 		if lazerNode.physicsBody?.categoryBitMask == CollisionCategory.lazer.rawValue {
-			print("lazer hit")
-//			lazerNode.removeFromParentNode()
-//
-//			let particle = SCNParticleSystem(named: "explosion", inDirectory: nil)!
-//			let systemNode = SCNNode()
-//			systemNode.addParticleSystem(particle)
-//			systemNode.position = contact.nodeA.position
-//
-////			planeNode?.addChildNode(systemNode)
-			
-//			sceneView.scene.rootNode.addChildNode(systemNode)
-			
-//			contact.nodeA.removeFromParentNode()
-			
 			lazerNode.removeFromParentNode()
 			
 			let particleSystem = SCNParticleSystem(named: "explosion", inDirectory: nil)
@@ -412,6 +319,49 @@ extension GameViewController {
 		sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
 	}
 	
+	private func spawnStone() {
+		
+		guard let planeNode = planeNode else { return }
+		let x = Float.random(in: -3...3)
+		let y = Float.random(in: -3...3)
+		let z = planeNode.position.z - 8
+		
+		let stoneNode = StoneNode.spawnStone()
+		stoneNode.position = SCNVector3(x, y, z)
+		
+		self.stones.insert(stoneNode)
+		
+		
+		let randomOffsetForce = CGFloat.random(in: -0.01...0.01)
+		stoneNode.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 1, y: 0, z: 0, duration: 0.4)))
+		stoneNode.runAction(SCNAction.move(by: SCNVector3(x: 0, y: 0, z: 30), duration: 60))
+//		stoneNode.physicsBody?.applyForce(SCNVector3(randomOffsetForce, randomOffsetForce, randomOffsetForce), asImpulse: true)
+		
+		
+		if let planeNode = scene.rootNode.childNode(withName: "debugPlaneNode", recursively: true) {
+			planeNode.addChildNode(stoneNode)
+		}
+		
+	}
+	
+	private func spawnCoin() {
+		guard let planeNode = planeNode else { return }
+		let x = Float.random(in: -3...3)
+		let y = Float.random(in: -3...3)
+		let z = planeNode.position.z - 8
+		
+		let coinNode = CoinNode.spawnCoin()
+		coinNode.position = SCNVector3(x, y, z)
+		
+		coinNode.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 1, y: 0, z: 0, duration: 0.4)))
+		coinNode.runAction(SCNAction.move(by: SCNVector3(x: 0, y: 0, z: 30), duration: 20))
+		
+		
+		if let planeNode = scene.rootNode.childNode(withName: "debugPlaneNode", recursively: true) {
+			planeNode.addChildNode(coinNode)
+		}
+	}
+	
 	private func removeNodeWithExplosion(_ node: SCNNode) {
 		let particleSystem = SCNParticleSystem(named: "explosion", inDirectory: nil)
 		let systemNode = SCNNode()
@@ -424,8 +374,7 @@ extension GameViewController {
 	}
 
 	
-	func createPlaneNode(center: vector_float3,
-						 extent: vector_float3) -> SCNNode {
+	func createPlaneNode(center: vector_float3, extent: vector_float3) -> SCNNode {
 		
 		let plane = SCNPlane(width: CGFloat(extent.x), height: CGFloat(extent.z))
 		

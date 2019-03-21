@@ -16,11 +16,14 @@
 		D32DD1D02240C03B0025CB5D /* Extension+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32DD1CF2240C03B0025CB5D /* Extension+UIViewController.swift */; };
 		D32DD1D22240C0CF0025CB5D /* Extension+SCNVector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32DD1D12240C0CF0025CB5D /* Extension+SCNVector3.swift */; };
 		D32DD1DE2240D9AB0025CB5D /* explosion.scnp in Resources */ = {isa = PBXBuildFile; fileRef = D32DD1DD2240D9AA0025CB5D /* explosion.scnp */; };
+		D33A2C4522434DDC00E021B7 /* CoinNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33A2C4422434DDC00E021B7 /* CoinNode.swift */; };
+		D33A2C492243565800E021B7 /* sky.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D33A2C482243565800E021B7 /* sky.jpg */; };
 		D3906E19223F8DE50004413D /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = D3906E17223F8DE50004413D /* spark.png */; };
 		D3906E1A223F8DE50004413D /* lazer.scnp in Resources */ = {isa = PBXBuildFile; fileRef = D3906E18223F8DE50004413D /* lazer.scnp */; };
 		D3D08E10223F75DD000FEBC5 /* StoneNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D08E0F223F75DD000FEBC5 /* StoneNode.swift */; };
 		D3EAD4902240DE8300DF9119 /* CollisionCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3EAD48F2240DE8300DF9119 /* CollisionCategory.swift */; };
 		D3EAD4922240E2B400DF9119 /* LazerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3EAD4912240E2B400DF9119 /* LazerNode.swift */; };
+		D3FB41EE224365F500A2A38D /* coin.png in Resources */ = {isa = PBXBuildFile; fileRef = D3FB41ED224365F500A2A38D /* coin.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,11 +38,14 @@
 		D32DD1CF2240C03B0025CB5D /* Extension+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIViewController.swift"; sourceTree = "<group>"; };
 		D32DD1D12240C0CF0025CB5D /* Extension+SCNVector3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+SCNVector3.swift"; sourceTree = "<group>"; };
 		D32DD1DD2240D9AA0025CB5D /* explosion.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = explosion.scnp; sourceTree = "<group>"; };
+		D33A2C4422434DDC00E021B7 /* CoinNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinNode.swift; sourceTree = "<group>"; };
+		D33A2C482243565800E021B7 /* sky.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sky.jpg; sourceTree = "<group>"; };
 		D3906E17223F8DE50004413D /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		D3906E18223F8DE50004413D /* lazer.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = lazer.scnp; sourceTree = "<group>"; };
 		D3D08E0F223F75DD000FEBC5 /* StoneNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoneNode.swift; sourceTree = "<group>"; };
 		D3EAD48F2240DE8300DF9119 /* CollisionCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionCategory.swift; sourceTree = "<group>"; };
 		D3EAD4912240E2B400DF9119 /* LazerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazerNode.swift; sourceTree = "<group>"; };
+		D3FB41ED224365F500A2A38D /* coin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,12 +80,15 @@
 			children = (
 				D316D8F3223E85E2009CDF2A /* AppDelegate.swift */,
 				D3906E17223F8DE50004413D /* spark.png */,
+				D33A2C482243565800E021B7 /* sky.jpg */,
+				D3FB41ED224365F500A2A38D /* coin.png */,
 				D3906E18223F8DE50004413D /* lazer.scnp */,
 				D32DD1DD2240D9AA0025CB5D /* explosion.scnp */,
 				D316D8F5223E85E2009CDF2A /* art.scnassets */,
 				D316D8F7223E85E2009CDF2A /* GameViewController.swift */,
 				D3D08E0F223F75DD000FEBC5 /* StoneNode.swift */,
 				D3EAD4912240E2B400DF9119 /* LazerNode.swift */,
+				D33A2C4422434DDC00E021B7 /* CoinNode.swift */,
 				D3EAD48F2240DE8300DF9119 /* CollisionCategory.swift */,
 				D32DD1CF2240C03B0025CB5D /* Extension+UIViewController.swift */,
 				D32DD1D12240C0CF0025CB5D /* Extension+SCNVector3.swift */,
@@ -149,7 +158,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D33A2C492243565800E021B7 /* sky.jpg in Resources */,
 				D3906E19223F8DE50004413D /* spark.png in Resources */,
+				D3FB41EE224365F500A2A38D /* coin.png in Resources */,
 				D316D8F6223E85E2009CDF2A /* art.scnassets in Resources */,
 				D316D900223E85E3009CDF2A /* LaunchScreen.storyboard in Resources */,
 				D32DD1DE2240D9AB0025CB5D /* explosion.scnp in Resources */,
@@ -166,6 +177,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D33A2C4522434DDC00E021B7 /* CoinNode.swift in Sources */,
 				D3EAD4922240E2B400DF9119 /* LazerNode.swift in Sources */,
 				D32DD1D22240C0CF0025CB5D /* Extension+SCNVector3.swift in Sources */,
 				D32DD1D02240C03B0025CB5D /* Extension+UIViewController.swift in Sources */,
