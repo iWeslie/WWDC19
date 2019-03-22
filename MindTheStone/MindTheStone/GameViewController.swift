@@ -148,6 +148,11 @@ class GameViewController: UIViewController {
 		hudImg.image = UIImage(named: "hud")
 		hudImg.contentMode = .scaleAspectFit
 		self.view.addSubview(hudImg)
+        
+        let spaceshipImg = UIImageView(image: UIImage(named: "spaceship"))
+        spaceshipImg.frame = UIScreen.main.bounds
+        spaceshipImg.contentMode = .scaleAspectFill
+        self.view.addSubview(spaceshipImg)
 		
 		playBtn = UIButton(frame: CGRect(x: 100, y: 100, width: 100, height: 30))
 		playBtn?.setTitle("Play", for: .normal)
