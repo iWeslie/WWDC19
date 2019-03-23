@@ -13,8 +13,9 @@
 		D316D8FB223E85E2009CDF2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D316D8F9223E85E2009CDF2A /* Main.storyboard */; };
 		D316D8FD223E85E3009CDF2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D316D8FC223E85E3009CDF2A /* Assets.xcassets */; };
 		D316D900223E85E3009CDF2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D316D8FE223E85E3009CDF2A /* LaunchScreen.storyboard */; };
+		D3270F0E2245E7AB00782110 /* stars.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3270F0D2245E7AA00782110 /* stars.jpg */; };
+		D3270F102245E95100782110 /* Extension+SCNVector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3270F0F2245E95100782110 /* Extension+SCNVector3.swift */; };
 		D32DD1D02240C03B0025CB5D /* Extension+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32DD1CF2240C03B0025CB5D /* Extension+UIViewController.swift */; };
-		D32DD1D22240C0CF0025CB5D /* Extension+SCNVector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32DD1D12240C0CF0025CB5D /* Extension+SCNVector3.swift */; };
 		D32DD1DE2240D9AB0025CB5D /* explosion.scnp in Resources */ = {isa = PBXBuildFile; fileRef = D32DD1DD2240D9AA0025CB5D /* explosion.scnp */; };
 		D33A2C4522434DDC00E021B7 /* CoinNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33A2C4422434DDC00E021B7 /* CoinNode.swift */; };
 		D3906E19223F8DE50004413D /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = D3906E17223F8DE50004413D /* spark.png */; };
@@ -34,8 +35,9 @@
 		D316D8FC223E85E3009CDF2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D316D8FF223E85E3009CDF2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D316D901223E85E3009CDF2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3270F0D2245E7AA00782110 /* stars.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = stars.jpg; sourceTree = "<group>"; };
+		D3270F0F2245E95100782110 /* Extension+SCNVector3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Extension+SCNVector3.swift"; path = "../../../../../.Trash/Extension+SCNVector3.swift"; sourceTree = "<group>"; };
 		D32DD1CF2240C03B0025CB5D /* Extension+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIViewController.swift"; sourceTree = "<group>"; };
-		D32DD1D12240C0CF0025CB5D /* Extension+SCNVector3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+SCNVector3.swift"; sourceTree = "<group>"; };
 		D32DD1DD2240D9AA0025CB5D /* explosion.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = explosion.scnp; sourceTree = "<group>"; };
 		D33A2C4422434DDC00E021B7 /* CoinNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinNode.swift; sourceTree = "<group>"; };
 		D3906E17223F8DE50004413D /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				D316D8F3223E85E2009CDF2A /* AppDelegate.swift */,
 				D3906E17223F8DE50004413D /* spark.png */,
 				D3FB41ED224365F500A2A38D /* coin.png */,
+				D3270F0D2245E7AA00782110 /* stars.jpg */,
 				D3906E18223F8DE50004413D /* lazer.scnp */,
 				D32DD1DD2240D9AA0025CB5D /* explosion.scnp */,
 				D316D8F5223E85E2009CDF2A /* art.scnassets */,
@@ -88,7 +91,7 @@
 				D33A2C4422434DDC00E021B7 /* CoinNode.swift */,
 				D3EAD48F2240DE8300DF9119 /* CollisionCategory.swift */,
 				D32DD1CF2240C03B0025CB5D /* Extension+UIViewController.swift */,
-				D32DD1D12240C0CF0025CB5D /* Extension+SCNVector3.swift */,
+				D3270F0F2245E95100782110 /* Extension+SCNVector3.swift */,
 				D316D8F9223E85E2009CDF2A /* Main.storyboard */,
 				D316D8FC223E85E3009CDF2A /* Assets.xcassets */,
 				D316D8FE223E85E3009CDF2A /* LaunchScreen.storyboard */,
@@ -156,6 +159,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3906E19223F8DE50004413D /* spark.png in Resources */,
+				D3270F0E2245E7AB00782110 /* stars.jpg in Resources */,
 				D3FB41EE224365F500A2A38D /* coin.png in Resources */,
 				D316D8F6223E85E2009CDF2A /* art.scnassets in Resources */,
 				D316D900223E85E3009CDF2A /* LaunchScreen.storyboard in Resources */,
@@ -175,12 +179,12 @@
 			files = (
 				D33A2C4522434DDC00E021B7 /* CoinNode.swift in Sources */,
 				D3EAD4922240E2B400DF9119 /* LazerNode.swift in Sources */,
-				D32DD1D22240C0CF0025CB5D /* Extension+SCNVector3.swift in Sources */,
 				D32DD1D02240C03B0025CB5D /* Extension+UIViewController.swift in Sources */,
 				D3EAD4902240DE8300DF9119 /* CollisionCategory.swift in Sources */,
 				D3D08E10223F75DD000FEBC5 /* StoneNode.swift in Sources */,
 				D316D8F8223E85E2009CDF2A /* GameViewController.swift in Sources */,
 				D316D8F4223E85E2009CDF2A /* AppDelegate.swift in Sources */,
+				D3270F102245E95100782110 /* Extension+SCNVector3.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

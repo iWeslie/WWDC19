@@ -16,7 +16,6 @@ class GameViewController: UIViewController {
 	
 //	var baseNode: SCNNode?
 	var planeNode: SCNNode?
-	var gameNode:SCNNode?
 
 	var updateCount = 0
 	
@@ -25,11 +24,6 @@ class GameViewController: UIViewController {
 	
 	var scene: SCNScene!
 	var wallNode: SCNNode!
-	
-	var viewCenter: CGPoint {
-		let viewBounds = view.bounds
-		return CGPoint(x: viewBounds.width / 2.0, y: viewBounds.height / 2.0)
-	}
 	
 	private var stones = Set<StoneNode>()
 	
@@ -62,36 +56,18 @@ class GameViewController: UIViewController {
         
         sceneView.delegate = self
 		sceneView.scene.physicsWorld.contactDelegate = self
-//        let scene = SCNScene(named: "art.scnassets/Scene/GameScene.scn")!
         scene = sceneView.scene
 		
 		sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
 		
 		setupHUD()
-		setupShip()
 		
-        // allows the user to manipulate the camera
-//        sceneView.allowsCameraControl = true
-		
-        // show statistics such as fps and timing information
         sceneView.showsStatistics = true
         
         // add a tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         sceneView.addGestureRecognizer(tapGesture)
     }
-	
-//	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//		if let hit = sceneView.hitTest(viewCenter, types: [.existingPlaneUsingExtent]).first {
-//			sceneView.session.add(anchor: ARAnchor(transform: hit.worldTransform))
-//		}
-//	}
-	
-    func testNode() {
-        let stone = SCNScene(named: "art.scnassets/Scene/GameScene.scn")!
-        sceneView.scene = stone
-    }
-
 	
 	override func viewWillAppear(_ animated: Bool) {
 		guard ARWorldTrackingConfiguration.isSupported else {
@@ -106,10 +82,6 @@ class GameViewController: UIViewController {
             """)
 		}
 		resetAll()
-	}
-	
-	func setupShip() {
-		
 	}
 	
 	func setupTimer() {
@@ -169,15 +141,14 @@ class GameViewController: UIViewController {
 		sceneView.debugOptions = []
 		stopTracking()
 		setupTimer()
-		
+        
 		planeNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
-		
-		let skyPlane = SCNPlane(width: 30, height: 24)
-		skyPlane.firstMaterial?.diffuse.contents = UIImage(named: "sky.jpg")
-		let skyNode = SCNNode(geometry: skyPlane)
-		sceneView.scene.rootNode.addChildNode(skyNode)
-		skyNode.position = SCNVector3(x: 0, y: 0, z: -10)
-
+        
+        let skySphere = SCNSphere(radius: 10)
+        skySphere.firstMaterial?.diffuse.contents = UIImage(named: "stars.jpg")
+        skySphere.firstMaterial?.isDoubleSided = true
+        let skyNode = SCNNode(geometry: skySphere)
+        sceneView.scene.rootNode.addChildNode(skyNode)
  
 	}
 	
@@ -276,6 +247,7 @@ extension GameViewController: SCNSceneRendererDelegate {
 		for stone in stones {
 			if stone.position.z > 1 {
 				stones.remove(stone)
+                stone.removeFromParentNode()
 				stone.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
 			}
 		}
