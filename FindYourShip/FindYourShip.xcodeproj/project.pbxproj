@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		D30FA1732244D557001FCADA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30FA1722244D557001FCADA /* AppDelegate.swift */; };
 		D30FA1752244D557001FCADA /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = D30FA1742244D557001FCADA /* art.scnassets */; };
-		D30FA1772244D557001FCADA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30FA1762244D557001FCADA /* ViewController.swift */; };
+		D30FA1772244D557001FCADA /* FindYourShipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30FA1762244D557001FCADA /* FindYourShipViewController.swift */; };
 		D30FA17A2244D557001FCADA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D30FA1782244D557001FCADA /* Main.storyboard */; };
 		D30FA17C2244D558001FCADA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D30FA17B2244D558001FCADA /* Assets.xcassets */; };
 		D30FA17F2244D558001FCADA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D30FA17D2244D558001FCADA /* LaunchScreen.storyboard */; };
@@ -19,7 +19,7 @@
 		D30FA16F2244D557001FCADA /* FindYourShip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FindYourShip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D30FA1722244D557001FCADA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D30FA1742244D557001FCADA /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
-		D30FA1762244D557001FCADA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D30FA1762244D557001FCADA /* FindYourShipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindYourShipViewController.swift; sourceTree = "<group>"; };
 		D30FA1792244D557001FCADA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D30FA17B2244D558001FCADA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D30FA17E2244D558001FCADA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -58,7 +58,7 @@
 			children = (
 				D30FA1722244D557001FCADA /* AppDelegate.swift */,
 				D30FA1742244D557001FCADA /* art.scnassets */,
-				D30FA1762244D557001FCADA /* ViewController.swift */,
+				D30FA1762244D557001FCADA /* FindYourShipViewController.swift */,
 				D30FA1782244D557001FCADA /* Main.storyboard */,
 				D30FA17B2244D558001FCADA /* Assets.xcassets */,
 				D30FA17D2244D558001FCADA /* LaunchScreen.storyboard */,
@@ -139,7 +139,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D30FA1772244D557001FCADA /* ViewController.swift in Sources */,
+				D30FA1772244D557001FCADA /* FindYourShipViewController.swift in Sources */,
 				D30FA1732244D557001FCADA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -36,5 +36,23 @@ public class CoinNode: SCNNode {
 		
 		return coinNode
 	}
+    
+    public static func spawnDiamond() -> CoinNode {
+        let diamondNode = CoinNode()
+        diamondNode.name = "diamond"
+        
+        let diamond = SCNScene(named: "diamond.scn")?.rootNode.childNodes.first?.geometry
+        diamondNode.scale = SCNVector3(x: 0.2, y: 0.2, z: 0.2)
+        diamondNode.geometry = diamond
+        
+        let shape = SCNPhysicsShape(geometry: SCNSphere(radius: 0.2), options: nil)
+        diamondNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: shape)
+        diamondNode.physicsBody?.isAffectedByGravity = false
+        
+        diamondNode.physicsBody?.categoryBitMask = CollisionCategory.coin.rawValue
+        diamondNode.physicsBody?.contactTestBitMask = CollisionCategory.lazer.rawValue
+        
+        return diamondNode
+    }
 }
 

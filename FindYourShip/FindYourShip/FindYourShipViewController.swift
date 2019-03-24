@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FindYourShipViewController.swift
 //  FindYourShip
 //
 //  Created by Weslie on 2019/3/22.
@@ -10,7 +10,7 @@ import UIKit
 import SceneKit
 import ARKit
 
-class ViewController: UIViewController {
+class FindYourShipViewController: UIViewController {
 
     var sceneView = ARSCNView()
     
@@ -88,7 +88,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController {
+extension FindYourShipViewController {
     private func resetTracking() {
         let configuration = ARWorldTrackingConfiguration()
         configuration.planeDetection = [.horizontal]
@@ -124,7 +124,7 @@ extension ViewController {
     }
 }
 
-extension ViewController {
+extension FindYourShipViewController {
     func session(_ session: ARSession, didFailWithError error: Error) {
         print("session didFailWithError: \(error.localizedDescription)")
         resetTracking()
@@ -144,7 +144,7 @@ extension ViewController {
     }
 }
 
-extension ViewController: ARSCNViewDelegate {
+extension FindYourShipViewController: ARSCNViewDelegate {
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         if let planeAnchor = anchor as? ARPlaneAnchor, node.childNodes.count < 1, updateCount < 1 {
             print("detected plane")

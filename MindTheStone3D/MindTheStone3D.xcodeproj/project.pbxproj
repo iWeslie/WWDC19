@@ -31,6 +31,7 @@
 		D36C90B522464DCA00B7EA68 /* hud_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D36C90B422464DCA00B7EA68 /* hud_small.png */; };
 		D36C90B722464E2000B7EA68 /* spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = D36C90B622464E2000B7EA68 /* spaceship.png */; };
 		D36C90B9224653D500B7EA68 /* left_hud.png in Resources */ = {isa = PBXBuildFile; fileRef = D36C90B8224653D500B7EA68 /* left_hud.png */; };
+		D371BC3622471C75004C67B0 /* game_over.png in Resources */ = {isa = PBXBuildFile; fileRef = D371BC3522471C75004C67B0 /* game_over.png */; };
 		D376194522467BDC00DF48B6 /* stone_2.scn in Resources */ = {isa = PBXBuildFile; fileRef = D36C90BC22466E0100B7EA68 /* stone_2.scn */; };
 		D376194822467D2D00DF48B6 /* stone_3.scn in Resources */ = {isa = PBXBuildFile; fileRef = D3648F9D224678480061FCAC /* stone_3.scn */; };
 		D376194A22467DC900DF48B6 /* stone_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D376194922467DC900DF48B6 /* stone_3.jpg */; };
@@ -42,7 +43,6 @@
 		D37619542246808200DF48B6 /* stone_4.scn in Resources */ = {isa = PBXBuildFile; fileRef = D3270F352245F5CB00782110 /* stone_4.scn */; };
 		D37619562246823000DF48B6 /* stone_8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D37619552246823000DF48B6 /* stone_8.jpg */; };
 		D376196022468D4300DF48B6 /* diamond.scn in Resources */ = {isa = PBXBuildFile; fileRef = D376195F22468D4300DF48B6 /* diamond.scn */; };
-		D376196222468EF100DF48B6 /* DiamondNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D376196122468EF100DF48B6 /* DiamondNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +76,7 @@
 		D36C90B622464E2000B7EA68 /* spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spaceship.png; sourceTree = "<group>"; };
 		D36C90B8224653D500B7EA68 /* left_hud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_hud.png; sourceTree = "<group>"; };
 		D36C90BC22466E0100B7EA68 /* stone_2.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = stone_2.scn; sourceTree = "<group>"; };
+		D371BC3522471C75004C67B0 /* game_over.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_over.png; sourceTree = "<group>"; };
 		D376194922467DC900DF48B6 /* stone_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = stone_3.jpg; sourceTree = "<group>"; };
 		D376194B22467EC000DF48B6 /* stone_4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = stone_4.jpg; sourceTree = "<group>"; };
 		D376194D22467F0200DF48B6 /* stone_5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = stone_5.jpg; sourceTree = "<group>"; };
@@ -83,7 +84,6 @@
 		D37619512246806200DF48B6 /* stone_7.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = stone_7.jpg; sourceTree = "<group>"; };
 		D37619552246823000DF48B6 /* stone_8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = stone_8.jpg; sourceTree = "<group>"; };
 		D376195F22468D4300DF48B6 /* diamond.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = diamond.scn; sourceTree = "<group>"; };
-		D376196122468EF100DF48B6 /* DiamondNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiamondNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,7 +103,6 @@
 				D3270F122245EA9A00782110 /* Extension+UIViewController.swift */,
 				D3270F132245EA9A00782110 /* Extension+SCNVector3.swift */,
 				D3270F142245EA9A00782110 /* CoinNode.swift */,
-				D376196122468EF100DF48B6 /* DiamondNode.swift */,
 				D3270F152245EA9A00782110 /* CollisionCategory.swift */,
 				D3270F162245EA9A00782110 /* LazerNode.swift */,
 				D3270F172245EA9A00782110 /* StoneNode.swift */,
@@ -138,6 +137,7 @@
 				D3270F1F2245EA9B00782110 /* CircleParticle.png */,
 				D3270F202245EA9B00782110 /* stars.jpg */,
 				D3270F212245EA9B00782110 /* coin.png */,
+				D371BC3522471C75004C67B0 /* game_over.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -236,6 +236,7 @@
 				D3270F322245F14F00782110 /* lazer.scnp in Resources */,
 				D376196022468D4300DF48B6 /* diamond.scn in Resources */,
 				D3270F2D2245EA9B00782110 /* spark.png in Resources */,
+				D371BC3622471C75004C67B0 /* game_over.png in Resources */,
 				D3270F2C2245EA9B00782110 /* explosion.scnp in Resources */,
 				D37619542246808200DF48B6 /* stone_4.scn in Resources */,
 				D36C90B522464DCA00B7EA68 /* hud_small.png in Resources */,
@@ -273,7 +274,6 @@
 				D3270F262245EA9B00782110 /* LazerNode.swift in Sources */,
 				D33E93C72244FFC200D83752 /* AppDelegate.swift in Sources */,
 				D3270F252245EA9B00782110 /* CollisionCategory.swift in Sources */,
-				D376196222468EF100DF48B6 /* DiamondNode.swift in Sources */,
 				D3270F222245EA9B00782110 /* Extension+UIViewController.swift in Sources */,
 				D3270F232245EA9B00782110 /* Extension+SCNVector3.swift in Sources */,
 				D3270F242245EA9B00782110 /* CoinNode.swift in Sources */,

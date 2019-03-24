@@ -10,9 +10,7 @@ import UIKit
 import SceneKit
 
 public class StoneNode: SCNNode {
-    
-    var hit = false
-    
+        
 	public override init() {
 		super.init()
 	}

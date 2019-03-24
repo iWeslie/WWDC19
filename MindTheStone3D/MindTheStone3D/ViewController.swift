@@ -25,9 +25,8 @@ class ViewController: UIViewController {
     var score = 0
     var life = 3
     
-    private var stones = Set<StoneNode>()
+    private var allNodes = Set<SCNNode>()
     
-
     private lazy var stoneGenerator: Timer = {
         return Timer(timeInterval: 1.0, repeats: true) {_ in
             self.spawnStone()
@@ -37,6 +36,12 @@ class ViewController: UIViewController {
     private lazy var coinGenerator: Timer = {
         return Timer(timeInterval: 5.0, repeats: true) {_ in
             self.spawnCoin()
+        }
+    }()
+    
+    private lazy var diamondGenerator: Timer = {
+        return Timer(timeInterval: 15.0, repeats: true) {_ in
+            self.spawnDiamond()
         }
     }()
     
@@ -97,6 +102,7 @@ class ViewController: UIViewController {
         DispatchQueue.main.async {
             RunLoop.main.add(self.stoneGenerator, forMode: RunLoop.Mode.common)
             RunLoop.main.add(self.coinGenerator, forMode: RunLoop.Mode.common)
+            RunLoop.main.add(self.diamondGenerator, forMode: RunLoop.Mode.common)
         }
     }
     
@@ -169,64 +175,15 @@ class ViewController: UIViewController {
 extension ViewController: SCNSceneRendererDelegate, ARSCNViewDelegate {
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         
-        for stone in stones {
-            if stone.presentation.position.z > 10 {
-                stone.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
-                self.stones.remove(stone)
+        for node in allNodes {
+            if node.presentation.position.z > 10 {
+                node.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
+                self.allNodes.remove(node)
             }
         }
         
         let cameraPosition = fetchUserLocation(in: self.sceneView.session.currentFrame).position
         shipNode.position = cameraPosition
-        
-        
-//        for stone in stones {
-//            if stone.presentation.position.z > 10 {
-//                stone.removeFromParentNode()
-//                self.stones.remove(stone)
-//            }
-//
-//        }
-//
-//        scene.rootNode.enumerateChildNodes { (node, stop) in
-//            if let stone = node as? StoneNode, stone.hit {
-//                node.runAction(SCNAction.removeFromParentNode())
-//            }
-//
-//            if node.presentation.position.z > 10 {
-//
-//            }
-//        }
-//        var nodeToRemove = [StoneNode]()
-////        for stone in stones where stone.hit || stone.presentation.position.z > 10 {
-//        for stone in stones where stone.presentation.position.z > 10 {
-//            nodeToRemove.append(stone)
-//        }
-
-//        DispatchQueue.main.async {
-////            nodeToRemove.forEach {
-////                $0.removeFromParentNode()
-////                self.stones.remove($0)
-////            }
-//            for stone in self.stones where stone.presentation.position.z > 5 {
-//                stone.removeFromParentNode()
-//            }
-//        }
-//        if let stoneNode = scene.rootNode.childNode(withName: "stone", recursively: true) {
-//            if stoneNode.presentation.position.z > 8 {
-//                print("remove")
-//
-//                stoneNode.childNodes.first?.removeFromParentNode()
-//                stoneNode.removeFromParentNode()
-//            }
-//        }
-
-        
-//        scene.rootNode.childNodes.forEach { (node) in
-//            if node.presentation.position.z > 8 {
-//                node.removeFromParentNode()
-//            }
-//        }
     }
     
 }
@@ -245,20 +202,19 @@ extension ViewController: SCNPhysicsContactDelegate {
             contact.nodeA.addChildNode(systemNode)
             contact.nodeA.physicsBody = SCNPhysicsBody()
             contact.nodeA.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
-            
-            
-            
-            
+           
             if contact.nodeA.name == "stone" {
                 score += 1
             } else if contact.nodeA.name == "coin" {
                 score += 10
+            } else if contact.nodeA.name == "diamond" {
+                score += 50
             }
             
             DispatchQueue.main.async {
                 self.scoreBtn?.setTitle("🎯 \(self.score)", for: .normal)
             }
-//
+            
 //            let removeAction = SCNAction.removeFromParentNode()
 //            contact.nodeA.runAction(SCNAction.sequence([removeAction]))
             
@@ -283,7 +239,6 @@ extension ViewController: SCNPhysicsContactDelegate {
 //            if let stone = contact.nodeA as? StoneNode {
 //                stone.hit = true
 //            }
-
         }
         
         if contact.nodeB.physicsBody?.categoryBitMask == CollisionCategory.stone.rawValue {
@@ -296,22 +251,19 @@ extension ViewController: SCNPhysicsContactDelegate {
                 }
                 
                 life -= 1
-                if life >= 0 {
-                    DispatchQueue.main.async {
-                        self.lifeBtn?.setTitle("❤️ \(self.life)", for: .normal)
-                    }
-                } else {
+                DispatchQueue.main.async {
+                    self.lifeBtn?.setTitle("❤️ \(self.life)", for: .normal)
+                }
+                if life <= 0 {
                     print("You lose")
-                    
-                    // TODO: - stop game
+                    DispatchQueue.main.async {
+                        self.gameOver()
+                    }
                 }
             }
         }
-        
     }
 }
-
-
 
 extension ViewController {
     private func spawnStone() {
@@ -321,7 +273,7 @@ extension ViewController {
         
         let stoneNode = StoneNode.spawnStone()
         stoneNode.position = SCNVector3(x, y, z)
-        self.stones.insert(stoneNode)
+        self.allNodes.insert(stoneNode)
         
         let randomOffsetForce = CGFloat.random(in: -0.01...0.01)
         stoneNode.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 1, y: 0, z: 0, duration: TimeInterval.random(in: 0.1...1))))
@@ -341,9 +293,26 @@ extension ViewController {
         let z = spawnPlane.position.z
         
         let coinNode = CoinNode.spawnCoin()
+        self.allNodes.insert(coinNode)
+
         coinNode.position = SCNVector3(x, y, z)
         coinNode.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 1, y: 0, z: 0, duration: 0.4)))
-        coinNode.runAction(SCNAction.move(by: SCNVector3(x: 0, y: 0, z: 30), duration: 20))
+        coinNode.runAction(SCNAction.move(by: SCNVector3(x: 0, y: 0, z: 30), duration: TimeInterval.random(in: 10...20)))
+        
+        spawnPlane.addChildNode(coinNode)
+    }
+    
+    private func spawnDiamond() {
+        let x = Float.random(in: -3...3)
+        let y = Float.random(in: -3...3)
+        let z = spawnPlane.position.z
+        
+        let coinNode = CoinNode.spawnDiamond()
+        self.allNodes.insert(coinNode)
+
+        coinNode.position = SCNVector3(x, y, z)
+        coinNode.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 1, y: 0, z: 0, duration: 0.4)))
+        coinNode.runAction(SCNAction.move(by: SCNVector3(x: 0, y: 0, z: 30), duration: 10))
         
         spawnPlane.addChildNode(coinNode)
     }
@@ -359,13 +328,21 @@ extension ViewController {
         }
     }
     
-    private func removeNodeWithExplosion(_ node: SCNNode) {
-        let particleSystem = SCNParticleSystem(named: "explosion", inDirectory: nil)
-        let systemNode = SCNNode()
-        systemNode.addParticleSystem(particleSystem!)
-        systemNode.position = node.position
-        sceneView.scene.rootNode.addChildNode(systemNode)
-        //        nodeA.addChildNode(systemNode)
-        node.removeFromParentNode()
+    private func gameOver() {
+        let gameOverView = UIView(frame: UIScreen.main.bounds)
+        gameOverView.backgroundColor = UIColor.red.withAlphaComponent(0.6)
+        let hud = UIImageView(frame: CGRect(x: UIScreen.main.bounds.width / 2  - 200, y: 100, width: 400, height: 248))
+        hud.image = UIImage(named: "game_over.png")
+        hud.contentMode = .scaleAspectFill
+        gameOverView.addSubview(hud)
+        self.view.addSubview(gameOverView)
+        self.sceneView.session.pause()
+        allNodes.forEach { $0.removeAllActions() }
+        
+        stoneGenerator.invalidate()
+        coinGenerator.invalidate()
+        diamondGenerator.invalidate()
+        
+        self.view.isUserInteractionEnabled = false
     }
 }
