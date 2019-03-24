@@ -6,7 +6,7 @@
 //  Copyright © 2019 weslie. All rights reserved.
 //
 
-enum CollisionCategory: Int {
+public enum CollisionCategory: Int {
 	case lazer	= 0b0001
 	case stone  = 0b0010
 	case coin 	= 0b0100

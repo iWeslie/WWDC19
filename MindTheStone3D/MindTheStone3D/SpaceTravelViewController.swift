@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  SpaceTravelViewController.swift
 //  MindTheStone3D
 //
 //  Created by Weslie on 2019/3/22.
@@ -10,7 +10,7 @@ import UIKit
 import SceneKit
 import ARKit
 
-class ViewController: UIViewController {
+public class SpaceTravelViewController: UIViewController {
     
     var sceneView = ARSCNView()
     var scene: SCNScene!
@@ -22,7 +22,19 @@ class ViewController: UIViewController {
     
     var scoreBtn: UIButton?
     var lifeBtn: UIButton?
-    var score = 0
+    
+    lazy var dispatchOnce : Void  = {
+        playSound(.win)
+        return
+    }()
+    
+    var score = 0 {
+        didSet {
+            if score >= 200 {
+                _ = dispatchOnce
+            }
+        }
+    }
     var life = 3
     
     private var allNodes = Set<SCNNode>()
@@ -45,7 +57,7 @@ class ViewController: UIViewController {
         }
     }()
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         setupScene()
@@ -62,6 +74,8 @@ class ViewController: UIViewController {
         geometryNode.position = currentVector
         geometryNode.physicsBody?.applyForce(direction * 20, asImpulse: true)
         scene.rootNode.addChildNode(geometryNode)
+        
+        playSound(.bullet)
     }
     
     func setupScene() {
@@ -70,10 +84,19 @@ class ViewController: UIViewController {
         sceneView.scene.physicsWorld.contactDelegate = self
         scene = sceneView.scene
         
+//        sceneView.clipsToBounds = true
+//        sceneView.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            sceneView.leadingAnchor.constraint(equalTo: self.liveViewSafeAreaGuide.leadingAnchor),
+//            sceneView.trailingAnchor.constraint(equalTo: self.liveViewSafeAreaGuide.trailingAnchor),
+//            sceneView.topAnchor.constraint(equalTo: self.liveViewSafeAreaGuide.topAnchor),
+//            sceneView.bottomAnchor.constraint(equalTo: self.liveViewSafeAreaGuide.bottomAnchor)
+//            ])
+        
         let configuration = ARWorldTrackingConfiguration()
-//        configuration.isLightEstimationEnabled = true
+        //        configuration.isLightEstimationEnabled = true
         sceneView.session.run(configuration, options: [])
-
+        
     }
     
     func setupNode() {
@@ -152,28 +175,21 @@ class ViewController: UIViewController {
     @objc func playBtnClicked() {
         setupTimer()
         
+        playBackgroundMusic()
+        
         spawnPlane.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
         
         let skySphere = SCNSphere(radius: 20)
-        skySphere.firstMaterial?.diffuse.contents = UIImage(named: "stars.jpg")
+        skySphere.firstMaterial?.diffuse.contents = UIImage(named: "stars_background.png")
         skySphere.firstMaterial?.isDoubleSided = true
         let skyNode = SCNNode(geometry: skySphere)
         sceneView.scene.rootNode.addChildNode(skyNode)
-        
-    }
-    
-    override var shouldAutorotate: Bool {
-        return true
-    }
-    
-    override var prefersStatusBarHidden: Bool {
-         return true
     }
 }
 
 // MARK: - SCNSceneRendererDelegate
-extension ViewController: SCNSceneRendererDelegate, ARSCNViewDelegate {
-    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+extension SpaceTravelViewController: SCNSceneRendererDelegate, ARSCNViewDelegate {
+    public func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         
         for node in allNodes {
             if node.presentation.position.z > 10 {
@@ -189,8 +205,8 @@ extension ViewController: SCNSceneRendererDelegate, ARSCNViewDelegate {
 }
 
 // MARK: - SCNPhysicsContactDelegate
-extension ViewController: SCNPhysicsContactDelegate {
-    func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
+extension SpaceTravelViewController: SCNPhysicsContactDelegate {
+    public func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
         if contact.nodeB.physicsBody?.categoryBitMask == CollisionCategory.lazer.rawValue {
             let lazerNode = contact.nodeB
             lazerNode.removeFromParentNode()
@@ -202,43 +218,21 @@ extension ViewController: SCNPhysicsContactDelegate {
             contact.nodeA.addChildNode(systemNode)
             contact.nodeA.physicsBody = SCNPhysicsBody()
             contact.nodeA.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
-           
+            
             if contact.nodeA.name == "stone" {
                 score += 1
+                playSound(.hitStone)
             } else if contact.nodeA.name == "coin" {
                 score += 10
+                playSound(.hitCoin)
             } else if contact.nodeA.name == "diamond" {
                 score += 50
+                playSound(.hitDiamond)
             }
             
             DispatchQueue.main.async {
                 self.scoreBtn?.setTitle("🎯 \(self.score)", for: .normal)
             }
-            
-//            let removeAction = SCNAction.removeFromParentNode()
-//            contact.nodeA.runAction(SCNAction.sequence([removeAction]))
-            
-//            contact.nodeA.removeFromParentNode()
-//            let stoneNode = contact.nodeA
-//            let makeClear = SCNAction.run { _ in
-//                stoneNode.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
-//            }
-//
-//
-//            let showExplosion = SCNAction.run { _ in
-//                let particleSystem = SCNParticleSystem(named: "explosion", inDirectory: nil)
-//                let systemNode = SCNNode()
-//                systemNode.addParticleSystem(particleSystem!)
-//                systemNode.position = stoneNode.position
-//                self.sceneView.scene.rootNode.addChildNode(systemNode)
-//            }
-//
-//            let removeAction = SCNAction.removeFromParentNode()
-//
-//            stoneNode.runAction(SCNAction.sequence([makeClear, showExplosion, removeAction]))
-//            if let stone = contact.nodeA as? StoneNode {
-//                stone.hit = true
-//            }
         }
         
         if contact.nodeB.physicsBody?.categoryBitMask == CollisionCategory.stone.rawValue {
@@ -251,11 +245,13 @@ extension ViewController: SCNPhysicsContactDelegate {
                 }
                 
                 life -= 1
+                playSound(.hitShip)
                 DispatchQueue.main.async {
                     self.lifeBtn?.setTitle("❤️ \(self.life)", for: .normal)
                 }
                 if life <= 0 {
                     print("You lose")
+                    playSound(.lose)
                     DispatchQueue.main.async {
                         self.gameOver()
                     }
@@ -265,7 +261,7 @@ extension ViewController: SCNPhysicsContactDelegate {
     }
 }
 
-extension ViewController {
+extension SpaceTravelViewController {
     private func spawnStone() {
         let x = Float.random(in: -3...3)
         let y = Float.random(in: -3...3)
@@ -275,7 +271,7 @@ extension ViewController {
         stoneNode.position = SCNVector3(x, y, z)
         self.allNodes.insert(stoneNode)
         
-        let randomOffsetForce = CGFloat.random(in: -0.01...0.01)
+        //        let randomOffsetForce = CGFloat.random(in: -0.01...0.01)
         stoneNode.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 1, y: 0, z: 0, duration: TimeInterval.random(in: 0.1...1))))
         
         stoneNode.runAction(SCNAction.move(by: SCNVector3(x: 0, y: 0, z: 20), duration: TimeInterval.random(in: 5...50)))
@@ -294,7 +290,7 @@ extension ViewController {
         
         let coinNode = CoinNode.spawnCoin()
         self.allNodes.insert(coinNode)
-
+        
         coinNode.position = SCNVector3(x, y, z)
         coinNode.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 1, y: 0, z: 0, duration: 0.4)))
         coinNode.runAction(SCNAction.move(by: SCNVector3(x: 0, y: 0, z: 30), duration: TimeInterval.random(in: 10...20)))
@@ -309,7 +305,7 @@ extension ViewController {
         
         let coinNode = CoinNode.spawnDiamond()
         self.allNodes.insert(coinNode)
-
+        
         coinNode.position = SCNVector3(x, y, z)
         coinNode.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 1, y: 0, z: 0, duration: 0.4)))
         coinNode.runAction(SCNAction.move(by: SCNVector3(x: 0, y: 0, z: 30), duration: 10))
@@ -326,6 +322,16 @@ extension ViewController {
         }) { (_) in
             coverView.removeFromSuperview()
         }
+    }
+    
+    private func playBackgroundMusic() {
+        let music = SCNAudioSource(fileNamed: "background.mp3")!
+        music.volume = 0.3
+        let musicPlayer = SCNAudioPlayer(source: music)
+        music.loops = true
+        music.shouldStream = true
+        music.isPositional = false
+        scene.rootNode.addAudioPlayer(musicPlayer)
     }
     
     private func gameOver() {

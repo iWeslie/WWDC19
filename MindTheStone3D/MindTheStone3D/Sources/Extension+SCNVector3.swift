@@ -41,10 +41,6 @@ public extension SCNVector3 {
 		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z
 	}
 	
-	func theta(from anotherVector: SCNVector3) -> Float {
-		return acos(self * anotherVector / (self.length * anotherVector.length))
-	}
-	
 	static func lineEulerAngles(vector: SCNVector3) -> SCNVector3 {
 		let height = vector.length
 		let xzLength = sqrt(vector.x * vector.x + vector.z * vector.z)

@@ -23,10 +23,18 @@
 		D3270F302245EA9B00782110 /* coin.png in Resources */ = {isa = PBXBuildFile; fileRef = D3270F212245EA9B00782110 /* coin.png */; };
 		D3270F322245F14F00782110 /* lazer.scnp in Resources */ = {isa = PBXBuildFile; fileRef = D3270F312245F14F00782110 /* lazer.scnp */; };
 		D33E93C72244FFC200D83752 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33E93C62244FFC200D83752 /* AppDelegate.swift */; };
-		D33E93C92244FFC200D83752 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33E93C82244FFC200D83752 /* ViewController.swift */; };
+		D33E93C92244FFC200D83752 /* SpaceTravelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33E93C82244FFC200D83752 /* SpaceTravelViewController.swift */; };
 		D33E93CC2244FFC200D83752 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D33E93CA2244FFC200D83752 /* Main.storyboard */; };
 		D33E93CE2244FFC500D83752 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D33E93CD2244FFC500D83752 /* Assets.xcassets */; };
 		D33E93D12244FFC500D83752 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D33E93CF2244FFC500D83752 /* LaunchScreen.storyboard */; };
+		D35DD56E2247611C00F40C79 /* hitDiamond.wav in Resources */ = {isa = PBXBuildFile; fileRef = D35DD5662247611A00F40C79 /* hitDiamond.wav */; };
+		D35DD56F2247611C00F40C79 /* background.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D35DD5672247611B00F40C79 /* background.mp3 */; };
+		D35DD5702247611C00F40C79 /* hitShip.wav in Resources */ = {isa = PBXBuildFile; fileRef = D35DD5682247611B00F40C79 /* hitShip.wav */; };
+		D35DD5712247611C00F40C79 /* hitStone.wav in Resources */ = {isa = PBXBuildFile; fileRef = D35DD5692247611B00F40C79 /* hitStone.wav */; };
+		D35DD5722247611C00F40C79 /* bullet.wav in Resources */ = {isa = PBXBuildFile; fileRef = D35DD56A2247611B00F40C79 /* bullet.wav */; };
+		D35DD5732247611C00F40C79 /* hitCoin.wav in Resources */ = {isa = PBXBuildFile; fileRef = D35DD56B2247611B00F40C79 /* hitCoin.wav */; };
+		D35DD5742247611C00F40C79 /* lose.wav in Resources */ = {isa = PBXBuildFile; fileRef = D35DD56C2247611C00F40C79 /* lose.wav */; };
+		D35DD5752247611C00F40C79 /* win.wav in Resources */ = {isa = PBXBuildFile; fileRef = D35DD56D2247611C00F40C79 /* win.wav */; };
 		D3648F9622466EBB0061FCAC /* stone_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3648F9522466EBB0061FCAC /* stone_2.jpg */; };
 		D36C90B522464DCA00B7EA68 /* hud_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D36C90B422464DCA00B7EA68 /* hud_small.png */; };
 		D36C90B722464E2000B7EA68 /* spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = D36C90B622464E2000B7EA68 /* spaceship.png */; };
@@ -64,11 +72,19 @@
 		D3270F352245F5CB00782110 /* stone_4.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = stone_4.scn; sourceTree = "<group>"; };
 		D33E93C32244FFC200D83752 /* MindTheStone3D.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MindTheStone3D.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33E93C62244FFC200D83752 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D33E93C82244FFC200D83752 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D33E93C82244FFC200D83752 /* SpaceTravelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceTravelViewController.swift; sourceTree = "<group>"; };
 		D33E93CB2244FFC200D83752 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D33E93CD2244FFC500D83752 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D33E93D02244FFC500D83752 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D33E93D22244FFC500D83752 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D35DD5662247611A00F40C79 /* hitDiamond.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hitDiamond.wav; sourceTree = "<group>"; };
+		D35DD5672247611B00F40C79 /* background.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = background.mp3; sourceTree = "<group>"; };
+		D35DD5682247611B00F40C79 /* hitShip.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hitShip.wav; sourceTree = "<group>"; };
+		D35DD5692247611B00F40C79 /* hitStone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hitStone.wav; sourceTree = "<group>"; };
+		D35DD56A2247611B00F40C79 /* bullet.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bullet.wav; sourceTree = "<group>"; };
+		D35DD56B2247611B00F40C79 /* hitCoin.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hitCoin.wav; sourceTree = "<group>"; };
+		D35DD56C2247611C00F40C79 /* lose.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lose.wav; sourceTree = "<group>"; };
+		D35DD56D2247611C00F40C79 /* win.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = win.wav; sourceTree = "<group>"; };
 		D3648F9522466EBB0061FCAC /* stone_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = stone_2.jpg; sourceTree = "<group>"; };
 		D3648F9D224678480061FCAC /* stone_3.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = stone_3.scn; sourceTree = "<group>"; };
 		D3648FA0224679070061FCAC /* stone_5.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = stone_5.scn; sourceTree = "<group>"; };
@@ -138,6 +154,14 @@
 				D3270F202245EA9B00782110 /* stars.jpg */,
 				D3270F212245EA9B00782110 /* coin.png */,
 				D371BC3522471C75004C67B0 /* game_over.png */,
+				D35DD5672247611B00F40C79 /* background.mp3 */,
+				D35DD56A2247611B00F40C79 /* bullet.wav */,
+				D35DD56B2247611B00F40C79 /* hitCoin.wav */,
+				D35DD5662247611A00F40C79 /* hitDiamond.wav */,
+				D35DD5682247611B00F40C79 /* hitShip.wav */,
+				D35DD5692247611B00F40C79 /* hitStone.wav */,
+				D35DD56C2247611C00F40C79 /* lose.wav */,
+				D35DD56D2247611C00F40C79 /* win.wav */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -163,7 +187,7 @@
 			children = (
 				D3270F182245EA9B00782110 /* Resources */,
 				D3270F112245EA9A00782110 /* Sources */,
-				D33E93C82244FFC200D83752 /* ViewController.swift */,
+				D33E93C82244FFC200D83752 /* SpaceTravelViewController.swift */,
 				D33E93CA2244FFC200D83752 /* Main.storyboard */,
 				D33E93C62244FFC200D83752 /* AppDelegate.swift */,
 				D33E93CD2244FFC500D83752 /* Assets.xcassets */,
@@ -241,24 +265,32 @@
 				D37619542246808200DF48B6 /* stone_4.scn in Resources */,
 				D36C90B522464DCA00B7EA68 /* hud_small.png in Resources */,
 				D3270F2F2245EA9B00782110 /* stars.jpg in Resources */,
+				D35DD5742247611C00F40C79 /* lose.wav in Resources */,
 				D376194E22467F0300DF48B6 /* stone_5.jpg in Resources */,
 				D3270F2A2245EA9B00782110 /* stone_1.jpg in Resources */,
 				D37619522246806200DF48B6 /* stone_7.jpg in Resources */,
+				D35DD5732247611C00F40C79 /* hitCoin.wav in Resources */,
 				D3270F2E2245EA9B00782110 /* CircleParticle.png in Resources */,
 				D33E93CE2244FFC500D83752 /* Assets.xcassets in Resources */,
 				D3270F302245EA9B00782110 /* coin.png in Resources */,
+				D35DD56F2247611C00F40C79 /* background.mp3 in Resources */,
+				D35DD5702247611C00F40C79 /* hitShip.wav in Resources */,
 				D36C90B9224653D500B7EA68 /* left_hud.png in Resources */,
 				D33E93CC2244FFC200D83752 /* Main.storyboard in Resources */,
 				D376194A22467DC900DF48B6 /* stone_3.jpg in Resources */,
 				D36C90B722464E2000B7EA68 /* spaceship.png in Resources */,
+				D35DD5712247611C00F40C79 /* hitStone.wav in Resources */,
 				D376194822467D2D00DF48B6 /* stone_3.scn in Resources */,
 				D3270F282245EA9B00782110 /* hud.png in Resources */,
 				D376194522467BDC00DF48B6 /* stone_2.scn in Resources */,
 				D37619562246823000DF48B6 /* stone_8.jpg in Resources */,
+				D35DD56E2247611C00F40C79 /* hitDiamond.wav in Resources */,
 				D37619532246807C00DF48B6 /* stone_5.scn in Resources */,
 				D376195022467F8A00DF48B6 /* stone_6.jpg in Resources */,
 				D3270F292245EA9B00782110 /* stone_1.scn in Resources */,
+				D35DD5752247611C00F40C79 /* win.wav in Resources */,
 				D376194C22467EC000DF48B6 /* stone_4.jpg in Resources */,
+				D35DD5722247611C00F40C79 /* bullet.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,7 +301,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D33E93C92244FFC200D83752 /* ViewController.swift in Sources */,
+				D33E93C92244FFC200D83752 /* SpaceTravelViewController.swift in Sources */,
 				D3270F272245EA9B00782110 /* StoneNode.swift in Sources */,
 				D3270F262245EA9B00782110 /* LazerNode.swift in Sources */,
 				D33E93C72244FFC200D83752 /* AppDelegate.swift in Sources */,
