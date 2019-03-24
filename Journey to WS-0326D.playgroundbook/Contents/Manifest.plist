@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Version</key>
+	<string>4.0</string>
+	<key>ContentVersion</key>
+	<string>1.0</string>
+	<key>Name</key>
+	<string>Journey to WS-0326D</string>
+	<key>DevelopmentRegion</key>
+	<string>en</string>
+	<key>ImageReference</key>
+	<string>logo.png</string>
+	<key>ContentIdentifier</key>
+	<string>com.weslie.MindTheStone</string>
+	<key>DeploymentTarget</key>
+	<string>ios12.0</string>
+	<key>SwiftVersion</key>
+	<string>4.2</string>
+	<key>Chapters</key>
+	<array>
+		<string>Chapter1.playgroundchapter</string>
+	</array>
+</dict>
+</plist>

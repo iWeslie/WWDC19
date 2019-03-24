@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Hints</key>
+	<array>
+		<dict>
+			<key>Content</key>
+			<string>Long press the dividing line of two views to adjust the screen size</string>
+		</dict>
+		<dict>
+			<key>Content</key>
+			<string>You should be in well-lit outdoor to ensure your spaceship landing safety.</string>
+		</dict>
+		<dict>
+			<key>Content</key>
+			<string>Careful scanning is also important.</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Hints</key>
+	<array>
+		<dict>
+			<key>Content</key>
+			<string>If your game crashed, you can transfer it again from AirDrop or rerun it.</string>
+		</dict>
+		<dict>
+			<key>Content</key>
+			<string>Make sure the portal is stable on the wall before playing.</string>
+		</dict>
+	</array>
+</dict>
+</plist>
