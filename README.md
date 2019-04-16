@@ -1,5 +1,7 @@
-# WWDC19 Creative Work(Accepted)
+# WWDC19 Scholarship Work(Accepted)
 
-Journey to WS-0326D
+## Journey to WS-0326D
 
-`Deprecated`: Previous thoughts
+Hey, I'm *Yongkang Chen*, a student from China. I applied `ARKit` Framework to build a cool game.
+
+🤩 Hope you enjoy it.
